@@ -1,0 +1,1 @@
+import type {Metadata} from 'next';import AdminGate from '@/components/AdminGate';import ArticleManager from '@/components/ArticleManager';export const metadata:Metadata={title:'Article management | SPECCTRL',robots:{index:false,follow:false}};export default function Page(){return <AdminGate><ArticleManager/></AdminGate>}

@@ -1,0 +1,1 @@
+import {Suspense} from 'react';import AdminGate from '@/components/AdminGate';import ArticleViewer from '@/components/ArticleViewer';export default function Page(){return <AdminGate><Suspense fallback={<p>Loading...</p>}><ArticleViewer admin/></Suspense></AdminGate>}

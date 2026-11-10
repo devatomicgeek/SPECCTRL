@@ -9,7 +9,7 @@ const sections = [
   {label:'Overview', icon:LayoutDashboard, href:'/admin/'},
   {label:'Cameras', icon:Camera, href:'/admin/cameras/'},
   {label:'Media Library', icon:Images, href:'/admin/media/'},
-  {label:'Articles', icon:FileText, href:'/admin/#articles'},
+  {label:'Articles', icon:FileText, href:'/admin/articles/'},
   {label:'Comparisons', icon:GitCompareArrows, href:'/admin/#comparisons'},
   {label:'Affiliate Links', icon:Link2, href:'/admin/#affiliates'},
   {label:'Settings', icon:Settings, href:'/admin/#settings'},

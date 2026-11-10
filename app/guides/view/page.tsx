@@ -1,0 +1,1 @@
+import {Suspense} from 'react';import ArticleViewer from '@/components/ArticleViewer';export default function Page(){return <Suspense fallback={<p className="muted p-8">Loading...</p>}><ArticleViewer/></Suspense>}
