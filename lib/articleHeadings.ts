@@ -1,0 +1,2 @@
+export function headingId(text:string){return text.toLowerCase().replace(/\*|\[|\]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'section';}
+export function articleHeadings(body:string){const seen=new Map<string,number>();return body.replace(/\r\n/g,'\n').split(/\n\s*\n/).map(block=>block.trim()).filter(block=>/^#{1,3} /.test(block)).map(block=>{const level=block.startsWith('### ')?3:2;const text=block.replace(/^#{1,3} /,'').trim();const base=headingId(text);const n=seen.get(base)||0;seen.set(base,n+1);return {text,level,id:n?`${base}-${n+1}`:base};});}

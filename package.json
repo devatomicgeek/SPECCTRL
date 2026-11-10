@@ -1,10 +1,10 @@
 {
   "name": "specctrl-camera",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/sync-articles.mjs && next build",
     "start": "next start",
     "lint": "next lint"
   },

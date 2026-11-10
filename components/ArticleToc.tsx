@@ -1,0 +1,2 @@
+import {articleHeadings} from '@/lib/articleHeadings';
+export default function ArticleToc({body}:{body:string}){const headings=articleHeadings(body);if(headings.length<2)return null;return <nav aria-label="Table of contents" className="articleToc panel p-5 mt-8"><h2 className="font-extrabold text-lg">On this page</h2><ol className="mt-3 space-y-2">{headings.map(h=><li key={h.id} className={h.level===3?'pl-5':''}><a className="blue text-sm" href={'#'+h.id}>{h.text}</a></li>)}</ol></nav>}

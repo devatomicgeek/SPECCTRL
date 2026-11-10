@@ -1,4 +1,5 @@
 import React from 'react';
+import {articleHeadings} from '@/lib/articleHeadings';
 
 // Small, safe Markdown subset. React escapes user-supplied text by default.
 function inline(text:string):React.ReactNode[]{
@@ -19,12 +20,13 @@ function inline(text:string):React.ReactNode[]{
  return parts;
 }
 export default function ArticleBody({body}:{body:string}){
+ const headings=articleHeadings(body);let headingIndex=0;
  const blocks=body.replace(/\r\n/g,'\n').split(/\n\s*\n/).filter(x=>x.trim());
  return <div className="articleBody">{blocks.map((block,i)=>{
   const trimmed=block.trim();
-  if(/^### /.test(trimmed))return <h3 key={i}>{inline(trimmed.slice(4))}</h3>;
-  if(/^## /.test(trimmed))return <h2 key={i}>{inline(trimmed.slice(3))}</h2>;
-  if(/^# /.test(trimmed))return <h2 key={i}>{inline(trimmed.slice(2))}</h2>;
+  if(/^### /.test(trimmed))return <h3 key={i} id={headings[headingIndex++]?.id}>{inline(trimmed.slice(4))}</h3>;
+  if(/^## /.test(trimmed))return <h2 key={i} id={headings[headingIndex++]?.id}>{inline(trimmed.slice(3))}</h2>;
+  if(/^# /.test(trimmed))return <h2 key={i} id={headings[headingIndex++]?.id}>{inline(trimmed.slice(2))}</h2>;
   const lines=trimmed.split('\n');
   if(lines.every(l=>/^[-*] /.test(l.trim())))return <ul key={i}>{lines.map((l,j)=><li key={j}>{inline(l.trim().slice(2))}</li>)}</ul>;
   if(lines.every(l=>/^\d+\. /.test(l.trim())))return <ol key={i}>{lines.map((l,j)=><li key={j}>{inline(l.trim().replace(/^\d+\. /,''))}</li>)}</ol>;
