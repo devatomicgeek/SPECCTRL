@@ -7,14 +7,7 @@ import Link from 'next/link';
 import {notFound} from 'next/navigation';
 import type {Metadata} from 'next';
 const dynamicArticles=published as {slug:string;title:string;category:string;summary:string;body:string;imageUrl:string;seoTitle:string;seoDescription:string}[];
-export function generateStaticParams() {
-  const slugs = [
-    ...articles.map(a => a.slug),
-    ...dynamicArticles.map(a => a.slug)
-  ];
-
-  return Array.from(new Set(slugs)).map(slug => ({ slug }));
-}
+export function generateStaticParams(){return [...Array.from(new Set([...articles.map(a=>a.slug),...dynamicArticles.map(a=>a.slug)]))].map(slug=>({slug}));}
 export function generateMetadata({params}:{params:{slug:string}}):Metadata{
  const a=dynamicArticles.find(x=>x.slug===params.slug);
  if(!a)return {title:articles.find(x=>x.slug===params.slug)?.title};
