@@ -1,6 +1,163 @@
-import type { Metadata } from 'next';
-import AdminGate from '@/components/AdminGate';
-import { Camera, FileText, Images, GitCompareArrows, ArrowUpRight, ShieldCheck } from 'lucide-react';
-export const metadata:Metadata={title:'Admin console',robots:{index:false,follow:false}};
-const tiles=[{id:'cameras',title:'Camera management',text:'Add and edit camera specifications. Available in v0.2.1.',icon:Camera},{id:'media',title:'Media library',text:'Upload and organize product images. Planned for v0.2.2.',icon:Images},{id:'articles',title:'Article editor',text:'Create drafts and publish guides. Planned for v0.2.3.',icon:FileText},{id:'comparisons',title:'Comparisons',text:'Manage comparison content in a future update.',icon:GitCompareArrows}];
-export default function AdminPage(){return <AdminGate><div className="adminTop"><div><div className="tag mb-3">WORKSPACE / OVERVIEW</div><h1 className="text-3xl sm:text-4xl font-black tracking-tight">Control center<span className="blue">.</span></h1><p className="muted mt-3">Your SPECCTRL publishing workspace is connected to Firebase Authentication.</p></div><span className="adminStatus"><ShieldCheck size={16}/> Authorized admin</span></div><div className="adminNotice"><strong>v0.2.0 foundation</strong><p className="muted mt-1 text-sm">This release provides secure login and the dashboard interface. Camera editing, media uploads, and article publishing are not active yet. Existing public camera content remains unchanged.</p></div><div className="adminStats"><div className="panel"><span className="muted text-sm">Admin access</span><strong>Enabled</strong><small>Firebase Authentication</small></div><div className="panel"><span className="muted text-sm">Content database</span><strong>Ready</strong><small>Firestore configured</small></div><div className="panel"><span className="muted text-sm">Publishing tools</span><strong>Next</strong><small>v0.2.1 onwards</small></div></div><h2 className="section-title mt-10 mb-5">Manage SPECCTRL</h2><div className="adminGrid">{tiles.map(t=><section id={t.id} key={t.id} className="panel adminTile"><div className="adminTileIcon"><t.icon size={23}/></div><h3 className="font-bold text-lg mt-5">{t.title}</h3><p className="muted text-sm mt-2">{t.text}</p><div className="adminComing">COMING SOON <ArrowUpRight size={14}/></div></section>)}</div><section id="affiliates" className="panel adminExtra mt-6"><h2 className="font-bold">Affiliate links</h2><p className="muted text-sm mt-2">Retailer-link management is planned for v0.2.4.</p></section><section id="settings" className="panel adminExtra mt-6"><h2 className="font-bold">Settings</h2><p className="muted text-sm mt-2">Administrator access is currently restricted to the configured Firebase UID. Security rules must also be published in Firebase Console.</p></section></div></div></AdminGate>}
+import type { Metadata } from "next";
+import AdminGate from "@/components/AdminGate";
+import {
+  Camera,
+  FileText,
+  Images,
+  GitCompareArrows,
+  ArrowUpRight,
+  ShieldCheck,
+} from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Admin console",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+const tiles = [
+  {
+    id: "cameras",
+    title: "Camera management",
+    text: "Add and edit camera specifications. Available in v0.2.1.",
+    icon: Camera,
+  },
+  {
+    id: "media",
+    title: "Media library",
+    text: "Upload and organize product images. Planned for v0.2.2.",
+    icon: Images,
+  },
+  {
+    id: "articles",
+    title: "Article editor",
+    text: "Create drafts and publish guides. Planned for v0.2.3.",
+    icon: FileText,
+  },
+  {
+    id: "comparisons",
+    title: "Comparisons",
+    text: "Manage comparison content in a future update.",
+    icon: GitCompareArrows,
+  },
+];
+
+export default function AdminPage() {
+  return (
+    <AdminGate>
+      <main className="adminPage">
+        <div className="adminTop">
+          <div>
+            <div className="tag mb-3">WORKSPACE / OVERVIEW</div>
+
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight">
+              Control center<span className="blue">.</span>
+            </h1>
+
+            <p className="muted mt-3">
+              Your SPECCTRL publishing workspace is connected to
+              Firebase Authentication.
+            </p>
+          </div>
+
+          <span className="adminStatus">
+            <ShieldCheck size={16} />
+            Authorized admin
+          </span>
+        </div>
+
+        <div className="adminNotice">
+          <strong>v0.2.0 foundation</strong>
+
+          <p className="muted mt-1 text-sm">
+            This release provides secure login and the dashboard
+            interface. Camera editing, media uploads, and article
+            publishing are not active yet. Existing public camera
+            content remains unchanged.
+          </p>
+        </div>
+
+        <div className="adminStats">
+          <div className="panel">
+            <span className="muted text-sm">Admin access</span>
+            <strong>Enabled</strong>
+            <small>Firebase Authentication</small>
+          </div>
+
+          <div className="panel">
+            <span className="muted text-sm">Content database</span>
+            <strong>Ready</strong>
+            <small>Firestore configured</small>
+          </div>
+
+          <div className="panel">
+            <span className="muted text-sm">Publishing tools</span>
+            <strong>Next</strong>
+            <small>v0.2.1 onwards</small>
+          </div>
+        </div>
+
+        <h2 className="section-title mt-10 mb-5">
+          Manage SPECCTRL
+        </h2>
+
+        <div className="adminGrid">
+          {tiles.map((tile) => {
+            const Icon = tile.icon;
+
+            return (
+              <section
+                id={tile.id}
+                key={tile.id}
+                className="panel adminTile"
+              >
+                <div className="adminTileIcon">
+                  <Icon size={23} />
+                </div>
+
+                <h3 className="font-bold text-lg mt-5">
+                  {tile.title}
+                </h3>
+
+                <p className="muted text-sm mt-2">
+                  {tile.text}
+                </p>
+
+                <div className="adminComing">
+                  COMING SOON
+                  <ArrowUpRight size={14} />
+                </div>
+              </section>
+            );
+          })}
+        </div>
+
+        <section
+          id="affiliates"
+          className="panel adminExtra mt-6"
+        >
+          <h2 className="font-bold">Affiliate links</h2>
+
+          <p className="muted text-sm mt-2">
+            Retailer-link management is planned for v0.2.4.
+          </p>
+        </section>
+
+        <section
+          id="settings"
+          className="panel adminExtra mt-6"
+        >
+          <h2 className="font-bold">Settings</h2>
+
+          <p className="muted text-sm mt-2">
+            Administrator access is currently restricted to the
+            configured Firebase UID. Security rules must also be
+            published in Firebase Console.
+          </p>
+        </section>
+      </main>
+    </AdminGate>
+  );
+}
