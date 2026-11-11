@@ -24,15 +24,21 @@ export default {async fetch(request,env){
  const url=new URL(request.url),origin=request.headers.get('origin');const headers=cors(origin);
  if(request.method==='OPTIONS')return new Response(null,{status:origin&&!ORIGINS.has(origin)?403:204,headers});
  try{
- if(url.pathname==='/health'&&request.method==='GET')return json({ok:true,service:'specctrl-media-api',version:'0.2.2'},200,headers);
+ if(url.pathname==='/health'&&request.method==='GET')return json({ok:true,service:'specctrl-media-api',version:'0.2.8'},200,headers);
  if(url.pathname.startsWith('/images/')&&request.method==='GET'){
   const key=decodeURIComponent(url.pathname.slice('/images/'.length));if(!safeKey(key))return json({error:'Invalid image path'},400,headers);
   const object=await env.MEDIA_BUCKET.get(key);if(!object)return json({error:'Image not found'},404,headers);
   return new Response(object.body,{headers:{...headers,'content-type':object.httpMetadata?.contentType||'application/octet-stream','cache-control':'public, max-age=3600','x-content-type-options':'nosniff'}});
  }
- if(!['/media','/media/'].includes(url.pathname)&&!url.pathname.startsWith('/media/'))return json({error:'Not found'},404,headers);
+ if(url.pathname!=='/deploy'&&!['/media','/media/'].includes(url.pathname)&&!url.pathname.startsWith('/media/'))return json({error:'Not found'},404,headers);
  if(origin&&!ORIGINS.has(origin))return json({error:'Origin not allowed'},403,headers);
  try{await verifyToken(request,env)}catch(e){return json({error:'Unauthorized',detail:e.message},401,headers)}
+ if(url.pathname==='/deploy'&&request.method==='POST'){
+  if(!env.PAGES_DEPLOY_HOOK)return json({error:'Pages deploy hook is not configured on this Worker'},503,headers);
+  const response=await fetch(env.PAGES_DEPLOY_HOOK,{method:'POST'});
+  if(!response.ok){console.error('Pages deployment trigger failed',response.status);return json({error:'Cloudflare Pages rejected the deployment request'},502,headers)}
+  return json({ok:true,message:'Cloudflare Pages rebuild requested. The article will appear when deployment finishes.'},202,headers);
+ }
  if(url.pathname==='/media'&&request.method==='GET'){
   const objects=await env.MEDIA_BUCKET.list({prefix:'cameras/',limit:500});
   return json({items:objects.objects.map(o=>({key:o.key,size:o.size,uploaded:o.uploaded?.toISOString(),url:`${url.origin}/images/${o.key}`})),truncated:objects.truncated},200,headers);
